@@ -45,4 +45,52 @@ my_rsa = "AAAAB3NzaC1yc2EAAAADAQABAAABAQCuW7xNxGKniTSPjsWJZAiAiq81HU+zeCl1HwxShS
          "MalzymmvJRzabeByBrbt8l8M/m/leTg7rUzuNGKm9FiXjJgZOQDYJ4bABeG9tdqXlbqci61XhWRs64zHEkNAP0BIybn7NSX81cDXnSf" \
          "kLaR4InsPcPKJTLlPe0YfQy0hD8WPLeKT9nseWZwCkb240DNth7mp19LAYF3O2b"
 
-print(hex_to_64(t))
+# print(hex_to_64(t))
+
+
+#######################################################################################################################
+
+
+#######################################################################################################################
+##### SET 1, CHALLENGE 2 ##############################################################################################
+#######################################################################################################################
+
+def hex_xor(a, b):
+    dec_a = int(a, 16)
+    dec_b = int(b, 16)
+    xor_val = dec_a ^ dec_b
+    return str(hex(xor_val))
+
+
+# print(hex_xor("1c0111001f010100061a024b53535009181c", "686974207468652062756c6c277320657965"))
+
+#######################################################################################################################
+
+#######################################################################################################################
+##### SET 1, CHALLENGE 3 ##############################################################################################
+#######################################################################################################################
+
+# the hex encoded string 1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736 has been XOR'd against a
+# single character. Find the key, decrypt the message.
+
+# encoded hex string
+ec_hex_string_s1c3 = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
+
+# key library - maybe just lower case?
+alphabet_lib = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+
+def decode_hex_string(hex_str):
+    i = 0
+    while i < 26:
+        res = hex_xor(hex_str, alphabet_lib[i].encode("utf-8").hex())
+        print(res)
+        print(i)
+        print(res.decode("hex"))
+        i += 1
+
+res = "a".encode("utf-8").hex()
+print(res)
+
+# decode_hex_string(ec_hex_string_s1c3)
+#######################################################################################################################
