@@ -1,0 +1,44 @@
+### Constants
+
+# frequency table pulled from https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
+frequencies = {
+    'a' : 0.0812, 
+    'b' : 0.0149, 
+    'c' : 0.0271, 
+    'd' : 0.0432, 
+    'e' : 0.1202, 
+    'f' : 0.0225, 
+    'g' : 0.0203, 
+    'h' : 0.0592, 
+    'i' : 0.0731, 
+    'j' : 0.0010, 
+    'k' : 0.0069, 
+    'l' : 0.0398, 
+    'm' : 0.0261, 
+    'n' : 0.0695, 
+    'o' : 0.0768, 
+    'p' : 0.0182, 
+    'q' : 0.0011, 
+    'r' : 0.0602, 
+    's' : 0.0628, 
+    't' : 0.0910, 
+    'u' : 0.0288, 
+    'v' : 0.0111,
+    'x' : 0.0017,
+    'y' : 0.0211,
+    'z' : 0.0007
+}
+
+# counts frequencies in text
+def score_txt(text):
+    score = 0.0
+    for byte in text:
+        char = chr(byte).lower()
+
+        if not 32 <= byte <= 126:
+            score -= 1.0
+        else:
+            score += frequencies.get(char, -0.05)
+
+    return score
+
