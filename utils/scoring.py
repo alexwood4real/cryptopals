@@ -24,9 +24,12 @@ frequencies = {
     't' : 0.0910, 
     'u' : 0.0288, 
     'v' : 0.0111,
+    'w' : 0.0209,
     'x' : 0.0017,
     'y' : 0.0211,
-    'z' : 0.0007
+    'z' : 0.0007,
+    # not in source, but have to account for spaces
+    ' ' : 0.1000 
 }
 
 # counts frequencies in text
