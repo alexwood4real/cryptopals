@@ -3,7 +3,7 @@
 ##### https://cryptopals.com/sets/1/challenges/4 ######################################################################
 
 ### Imports
-from utils.xor import break_single_byte_xor
+from utils.common import break_single_byte_xor
 from utils.file_io import read_input_lines, write_output
 
 def set_1_challenge_4():

@@ -3,7 +3,7 @@
 ##### https://cryptopals.com/sets/1/challenges/3 ######################################################################
 
 ### Imports
-from utils.xor import break_single_byte_xor
+from utils.common import break_single_byte_xor
 from utils.file_io import read_input, write_output
 
 # C = P XOR K, s.t.

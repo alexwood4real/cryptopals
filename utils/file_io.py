@@ -1,6 +1,11 @@
+############################
+# Pure File I/O Operations #
+############################
+
+### Imports
 from pathlib import Path
 
-### Constants
+### Constants 
 
 # Root directory
 ROOT_DIR = Path(__file__).resolve().parent.parent

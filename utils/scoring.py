@@ -1,3 +1,7 @@
+###########################
+# Pure Scoring Operations #
+###########################
+
 ### Constants
 
 # frequency table pulled from https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
@@ -31,6 +35,8 @@ frequencies = {
     # not in source, but have to account for spaces
     ' ' : 0.1000 
 }
+
+### Functions
 
 # counts frequencies in text
 def score_txt(text):
