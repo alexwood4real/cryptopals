@@ -4,8 +4,9 @@
 
 ### Imports
 import base64
-from utils.file_io import read_input_raw
+from utils.file_io import read_input_raw, write_output
 from utils.common import break_single_byte_xor, calc_key_len, hamming_distance, transpose_msg
+from utils.xor import repeating_key_byte_xor
 
 ### Constants
 
@@ -47,9 +48,9 @@ def set_1_challenge_6():
         #print(f"norm: {norm}\n size: {keysize_it}\n\n")
         candidates.append((norm, keysize_it))
 
-    # 3. select the 10 key size with the smallest hamming distance
+    # 3. select the 5 key size with the smallest hamming distance
     candidates.sort()
-    key_sizes = [key_data[1] for key_data in candidates[:10]]
+    key_sizes = [key_data[1] for key_data in candidates[:5]]
     # TODO: when done, replace top portion with single command
     # key_size = calc_key_len(msg)
 
@@ -85,3 +86,9 @@ def set_1_challenge_6():
             l = break_single_byte_xor(l_list)
             key += chr(l[0][1])
         key_list.append(key)
+
+    # 7. perform repeating_key_byte_xor for each key
+    for idx, key in enumerate(key_list):
+        result = repeating_key_byte_xor(msg, key).decode("utf-8")
+        output_str = CHALLENGE_6_OUTPUTS + "/challeng_6_output_" + str(idx) + ".txt"
+        write_output(output_str, result)
