@@ -3,7 +3,7 @@
 ##### https://cryptopals.com/sets/1/challenges/8 ######################################################################
 
 ### Imports
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from utils.ecb import is_aes_ecb
 from utils.file_io import read_input_lines, write_output
 
 def set_1_challenge_8():
@@ -15,14 +15,7 @@ def set_1_challenge_8():
     for msg_idx, msg in enumerate(msg_list):
         msg_bytes = bytes.fromhex(msg)
 
-        # split each line into 16 blocks
-        blocks = [
-            msg_bytes[i:i + 16]
-            for i in range(0, len(msg_bytes), 16)
-        ]
-
-        # if any duplicate blocks exist, that line is ecrypted in ECB mode
-        if len(blocks) != len(set(blocks)):
+        if is_aes_ecb(msg_bytes):
             output += f"The line that is encrypted in ECB mode is line {msg_idx} with the text:\n{str(msg_list[msg_idx])}"
 
     write_output("challenge_8_output.txt", output)
