@@ -3,7 +3,7 @@
 ##### https://cryptopals.com/sets/1/challenges/8 ######################################################################
 
 ### Imports
-from utils.ecb import is_aes_ecb
+from utils.blocks import is_aes_ecb
 from utils.file_io import read_input_lines, write_output
 
 def set_1_challenge_8():

@@ -3,7 +3,7 @@
 ##### https://cryptopals.com/sets/2/challenges/9 ######################################################################
 
 ### Imports
-from utils.ecb import pkcs7_pad
+from utils.blocks import pkcs7_pad
 from utils.file_io import write_output
 
 def set_2_challenge_9():

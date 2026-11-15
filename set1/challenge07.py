@@ -4,7 +4,7 @@
 
 ### Imports
 import base64
-from utils.ecb import decrypt_aes_128_ecb
+from utils.blocks import decrypt_aes_128_ecb
 from utils.file_io import read_input_raw, write_output
 
 def set_1_challenge_7():
