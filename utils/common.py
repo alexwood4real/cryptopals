@@ -22,24 +22,29 @@ def break_single_byte_xor(cipher_bytes):
     candidates.sort(reverse=True)
 
     # return list of candidates is descending score order
-    # TODO: when done, just return the top one not the list
     return candidates
 
 def calc_key_len(msg):
+    # try keysize lengths from 2-40
     candidates = []
-    for keysize_it in range(2, 41):
-        # take the first and second KEYSIZE worth of bytes
-        block_1 = msg[:keysize_it]
-        block_2 = msg[keysize_it: 2 * keysize_it]
+    for keysize_it in range(1, 41):
+        # take the first four KEYSIZE worth of bytes
+        blocks = [
+            msg[i * keysize_it:(i + 1) * keysize_it]
+            for i in range(4)
+        ]
 
         # find the hamming distance between the two blocks and normalize
-        ham = hamming_distance(block_1, block_2)
-        norm = ham / keysize_it
+        ham = 0
+        for i in range(len(blocks) - 1):
+            ham += hamming_distance(blocks[i], blocks[i + 1])
+        norm = ham / (3 * keysize_it)
         candidates.append((norm, keysize_it))
 
-    # return the key size with the smallest hamming distance
+    # 3. return the 5 key size with the smallest hamming distance
     candidates.sort()
-    return candidates[0][1]
+    result = [key_data[1] for key_data in candidates[:5]]
+    return result
 
 # performs XOR on numbers to find differing bits
 def hamming_distance(bytes_1, bytes_2):
@@ -65,13 +70,16 @@ def hamming_distance(bytes_1, bytes_2):
 # ...
 # n-1 : (msg[(n-1) + 0*key_size], msg[(n-1) + 1*key_size], msg[(n-1) + 2*key_size], ...)
 # ]
-def transpose_msg(msg, n):
+def transpose_msg(msg, key_sizes):
     block_list = []
-    for block_idx in range(n):
-        block = []
-        it = 0
-        while (block_idx + (it * n)) < len(msg):
-            block.append(msg[(block_idx + (it * n))])
-            it += 1
-        block_list.append(block)
+    for key_size in key_sizes:
+        candidate_blocks = []
+        for block_idx in range(key_size):
+            block = []
+            it = 0
+            while (block_idx + (it * key_size)) < len(msg):
+                block.append(msg[(block_idx + (it * key_size))])
+                it += 1
+            candidate_blocks.append(bytes(block))
+        block_list.append(candidate_blocks)
     return block_list
