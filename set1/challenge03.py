@@ -13,7 +13,7 @@ from utils.file_io import read_input, write_output
 # 256 ascii characters; therefore, 256 possible keys
 def set_1_challenge_3():
     hex_str = read_input("challenge_3.txt")
-    result = break_single_byte_xor(hex_str)
+    result = break_single_byte_xor(bytes.fromhex(hex_str))
 
     # get the highest score and decrypt
     score, key, text = result[0]

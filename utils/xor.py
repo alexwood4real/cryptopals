@@ -2,9 +2,6 @@
 # Pure XOR Operations #
 #######################
 
-### Imports
-from utils.scoring import score_txt
-
 ### Constants
 
 NEW_LINE = 10 
@@ -28,31 +25,20 @@ def repeating_key_byte_xor(msg, key):
     # holds the encrypted message
     xor_msg = bytearray()
 
-    # iterate through the text line by line
-    for line_num, line in enumerate(msg):
-        # turn current line into bytes
-        byte_line = line.encode("utf-8")
+    # iterate through the message
+    for byte in msg:
+        # XOR the current byte with the current key byte and append
+        msg_byte = byte ^ key_bytes[key_idx]
 
-        # new line inbetween lines
-        if line_num > 0:
-            xor_msg.append(NEW_LINE ^ key_bytes[key_idx])
-            key_idx += 1
-            key_idx %= key_size
+        # append the XORed byte to the encrypted message
+        xor_msg.append(msg_byte)
 
-        # iterate through the hex string and XOR with the key
-        for byte in byte_line:
-            # XOR the current byte with the current key byte
-            msg_byte = byte ^ key_bytes[key_idx]
-
-            # append the XORed byte to the encrypted message
-            xor_msg.append(msg_byte)
-
-            # iterate key
-            key_idx += 1
-            key_idx %= key_size
+        # iterate key
+        key_idx += 1
+        key_idx %= key_size
 
     # return encrypted msg as a hex string
-    return xor_msg.hex()
+    return xor_msg
 
 # performs a XOR on every byte in a text with a single key
 def single_byte_xor(cipher, key):

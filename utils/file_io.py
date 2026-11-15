@@ -21,10 +21,15 @@ def read_input(filename):
     file_path = INPUT_DIR / filename
     return file_path.read_text(encoding="utf-8").strip()
 
-# read inputs from file
+# reads multiple lines from file and returns as a list
 def read_input_lines(filename):
     file_path = INPUT_DIR / filename
     return file_path.read_text(encoding="utf-8").splitlines()
+
+# read multiple lines from a file and returns as one long string
+def read_input_raw(filename):
+    file_path = INPUT_DIR / filename
+    return file_path.read_text(encoding="utf-8")
 
 # write output to file
 def write_output(filename, data):

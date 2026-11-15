@@ -13,7 +13,7 @@ def set_1_challenge_4():
     # iterate through the txt file
     lines = read_input_lines("challenge_4.txt")
     for line in lines:
-        results = break_single_byte_xor(line)
+        results = break_single_byte_xor(bytes.fromhex(line))
 
         # record the highest score for this round
         best.append(results[0])
