@@ -5,6 +5,7 @@ from set1.challenge03 import set_1_challenge_3
 from set1.challenge04 import set_1_challenge_4
 from set1.challenge05 import set_1_challenge_5
 from set1.challenge06 import set_1_challenge_6
+from set1.challenge07 import set_1_challenge_7
 
 def main():
     ### Set 1
@@ -14,6 +15,7 @@ def main():
     set_1_challenge_4()
     set_1_challenge_5()
     set_1_challenge_6()
+    set_1_challenge_7()
 
 if __name__ == "__main__":
     main()
