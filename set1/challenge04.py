@@ -3,7 +3,7 @@
 ##### https://cryptopals.com/sets/1/challenges/4 ######################################################################
 
 ### Imports
-from utils.xor import break_single_byte_xor
+from utils.common import break_single_byte_xor
 from utils.file_io import read_input_lines, write_output
 
 def set_1_challenge_4():
@@ -13,7 +13,7 @@ def set_1_challenge_4():
     # iterate through the txt file
     lines = read_input_lines("challenge_4.txt")
     for line in lines:
-        results = break_single_byte_xor(line)
+        results = break_single_byte_xor(bytes.fromhex(line))
 
         # record the highest score for this round
         best.append(results[0])

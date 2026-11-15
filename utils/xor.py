@@ -1,6 +1,6 @@
-### Imports
-
-from utils.scoring import score_txt
+#######################
+# Pure XOR Operations #
+#######################
 
 ### Constants
 
@@ -15,10 +15,6 @@ def hex_xor(a, b):
     xor_val = dec_a ^ dec_b
     return hex(xor_val)
 
-# performs a XOR on every byte in a text with a single key
-def single_byte_xor(cipher, key):
-    return bytes( byte ^ key for byte in cipher)
-
 # performs XOR on a text with a definitive key
 def repeating_key_byte_xor(msg, key):
     # set up the key info
@@ -27,49 +23,23 @@ def repeating_key_byte_xor(msg, key):
     key_idx = 0
 
     # holds the encrypted message
-    encrypted_msg = bytearray()
+    xor_msg = bytearray()
 
-    # iterate through the text line by line
-    for line_num, line in enumerate(msg):
-        # turn current line into bytes
-        byte_line = line.encode("utf-8")
+    # iterate through the message
+    for byte in msg:
+        # XOR the current byte with the current key byte and append
+        msg_byte = byte ^ key_bytes[key_idx]
 
-        # new line inbetween lines
-        if line_num > 0:
-            encrypted_msg.append(NEW_LINE ^ key_bytes[key_idx])
-            key_idx += 1
-            key_idx %= key_size
+        # append the XORed byte to the encrypted message
+        xor_msg.append(msg_byte)
 
-        # iterate through the hex string and XOR with the key
-        for byte in byte_line:
-            # XOR the current byte with the current key byte
-            msg_byte = byte ^ key_bytes[key_idx]
-
-            # append the XORed byte to the encrypted message
-            encrypted_msg.append(msg_byte)
-
-            # iterate key
-            key_idx += 1
-            key_idx %= key_size
-
+        # iterate key
+        key_idx += 1
+        key_idx %= key_size
 
     # return encrypted msg as a hex string
-    return encrypted_msg.hex()
+    return xor_msg
 
-# performs XOR for every ascii key and return scores
-def break_single_byte_xor(hex_str):
-    cipher_bytes = bytes.fromhex(hex_str)
-
-    candidates = []
-
-    # iterate through all ascii codes
-    for key in range(256):
-        text = single_byte_xor(cipher_bytes, key)
-        score = score_txt(text)
-
-        candidates.append((score, key, text))
-
-    candidates.sort(reverse=True)
-
-    # return list of candidates is descending score order
-    return candidates
+# performs a XOR on every byte in a text with a single key
+def single_byte_xor(cipher, key):
+    return bytes( byte ^ key for byte in cipher)

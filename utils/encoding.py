@@ -1,6 +1,9 @@
+############################
+# Pure Encoding Operations #
+############################
+
 ### Imports
 import base64
-from utils.xor import hex_xor
 
 ### Functions
 
