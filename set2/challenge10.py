@@ -4,12 +4,13 @@
 
 ### Imports
 import base64
+from utils.blocks import decrypt_aes_128_cbc
 from utils.file_io import read_input_raw, write_output
 
 ### Constants
 
 # Challenge 10 output directory
-CHALLENGE_10_OUTPUTS = "challenge_10_outputs"
+CHALLENGE_10_OUTPUTS = "challenge_10_outputs/"
 
 # Plan:
 # Given a following text in base 64
@@ -22,5 +23,10 @@ def set_2_challenge_10():
     key = b"YELLOW SUBMARINE"
     msg = base64.b64decode(read_input_raw("challenge_10.txt"))
     iv = b"\x00" * 16
+
+    # 1. decrypt in CBC the easy way
+    decrypt_cbc_easy = decrypt_aes_128_cbc(key, msg, iv)
+    output_path = CHALLENGE_10_OUTPUTS + "decrypt_cbc_easy.txt"
+    write_output(output_path, decrypt_cbc_easy.decode("utf-8"))
 
     
