@@ -57,14 +57,6 @@ def hamming_distance(bytes_1, bytes_2):
 
     return bit_cnt
 
-def is_readable(data, threshold=0.90):
-    readable = sum(
-        byte in (9, 10, 13) or 32 <= byte <= 126
-        for byte in data
-    )
-
-    return readable / len(data) >= threshold
-
 # transpose the msg into blocks for the respective keysize
 # block_idx : (msg[block_idx + n*key_size]), while (block_idx + n*keysize) < len(msg)
 # block_list = [
