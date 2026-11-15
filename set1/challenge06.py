@@ -7,6 +7,11 @@ import base64
 from utils.file_io import read_input_raw
 from utils.common import break_single_byte_xor, calc_key_len, hamming_distance, transpose_msg
 
+### Constants
+
+# Challenge 6 output directory
+CHALLENGE_6_OUTPUTS = "challenge_6_outputs"
+
 ### Steps to take 
 ## 1. Let KEYSIZE be the guessed length of the key; trying values 2-40
 ## 2. For each KEYSIZE take the first KEYSIZE worth of bytes and the second KEYSIZE worth of bytes,
@@ -26,20 +31,25 @@ def set_1_challenge_6():
 
     # 1. try keysize lengths from 2-40
     candidates = []
-    for keysize_it in range(2, 41):
-        # 2. Take the first and second KEYSIZE worth of bytes
-        block_1 = msg[:keysize_it]
-        block_2 = msg[keysize_it: 2 * keysize_it]
+    for keysize_it in range(1, 41):
+        # 2. Take the first four KEYSIZE worth of bytes
+        blocks = [
+            msg[i * keysize_it:(i + 1) * keysize_it]
+            for i in range(4)
+        ]
 
         # find the hamming distance between the two blocks and normalize
-        ham = hamming_distance(block_1, block_2)
-        norm = ham / keysize_it
-        print(f"norm: {norm}\n size: {keysize_it}\n\n")
+        ham = 0
+        for i in range(len(blocks) - 1):
+            ham += hamming_distance(blocks[i], blocks[i + 1])
+        norm = ham / (3 * keysize_it)
+        # TODO: remove when done, and fix function in common.py
+        #print(f"norm: {norm}\n size: {keysize_it}\n\n")
         candidates.append((norm, keysize_it))
 
-    # 3. select the key size with the smallest hamming distance
+    # 3. select the 10 key size with the smallest hamming distance
     candidates.sort()
-    key_size = candidates[0][1]
+    key_sizes = [key_data[1] for key_data in candidates[:10]]
     # TODO: when done, replace top portion with single command
     # key_size = calc_key_len(msg)
 
@@ -52,20 +62,26 @@ def set_1_challenge_6():
     # key_size - 1 : (msg[(key_size - 1) + 0*key_size], msg[(key_size - 1) + 1*key_size], ...)
     # ]
     block_list = []
-    for block_idx in range(key_size):
-        block = []
-        it = 0
-        while (block_idx + (it * key_size)) < len(msg):
-            block.append(msg[(block_idx + (it * key_size))])
-            it += 1
-        block_list.append(block)
+    for key_size in key_sizes:
+        candidate_blocks = []
+        for block_idx in range(key_size):
+            block = []
+            it = 0
+            while (block_idx + (it * key_size)) < len(msg):
+                block.append(msg[(block_idx + (it * key_size))])
+                it += 1
+            candidate_blocks.append(bytes(block))
+        block_list.append(candidate_blocks)
     # TODO: when done, replace top portion with single command
     # block_list = transpose_msg(msg, key_size)
 
-    # 5. perform break_single_byte_xor on each block idx to solve for that key
-    key = ""
-    for l_it in range(key_size):
-        l_list = bytes(block_list[l_it])
-        l = break_single_byte_xor(l_list)
-        key += chr(l[0][1])
-    print(key)
+    # 5. perform break_single_byte_xor on each block idx
+    key_list = []
+    for key_it, key_size in enumerate(key_sizes):    
+        key = ""
+        # 6. solve for that key
+        for l_it in range(key_size):
+            l_list = block_list[key_it][l_it]
+            l = break_single_byte_xor(l_list)
+            key += chr(l[0][1])
+        key_list.append(key)
