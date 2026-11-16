@@ -36,6 +36,16 @@ def encrypt_aes_128_cbc(key, msg, iv):
     plaintext = enncryptor.update(msg) + enncryptor.finalize()
     return plaintext
 
+# encrypt message with key from AES-128 in ECB mode
+def decrypt_aes_128_ecb(key, msg):
+    # create the AES-128 in ECB mode descryptor with the key
+    cipher = Cipher(algorithms.AES(key), modes.ECB())
+    encryptor = cipher.encryptor()
+
+    # decrypt message and return as string
+    plaintext = encryptor.update(msg) + encryptor.finalize()
+    return plaintext
+
 # determine if given message was encoded with ECB mode
 def is_aes_ecb(msg_bytes):
     # split each line into 16 blocks
