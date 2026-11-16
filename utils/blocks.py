@@ -37,7 +37,7 @@ def encrypt_aes_128_cbc(key, msg, iv):
     return plaintext
 
 # encrypt message with key from AES-128 in ECB mode
-def decrypt_aes_128_ecb(key, msg):
+def encrypt_aes_128_ecb(key, msg):
     # create the AES-128 in ECB mode descryptor with the key
     cipher = Cipher(algorithms.AES(key), modes.ECB())
     encryptor = cipher.encryptor()
