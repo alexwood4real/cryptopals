@@ -4,7 +4,7 @@
 
 ### Imports
 import base64
-from utils.blocks import decrypt_aes_128_cbc
+from utils.blocks import decrypt_aes_128_cbc, encrypt_aes_128_cbc
 from utils.file_io import read_input_raw, write_output
 
 ### Constants
@@ -28,5 +28,11 @@ def set_2_challenge_10():
     decrypt_cbc_easy = decrypt_aes_128_cbc(key, msg, iv)
     output_path = CHALLENGE_10_OUTPUTS + "decrypt_cbc_easy.txt"
     write_output(output_path, decrypt_cbc_easy.decode("utf-8"))
+
+    # 2. verify be encrypting in CBC the easy way
+    encrypt_cbc_easy = encrypt_aes_128_cbc(key, decrypt_cbc_easy, iv)
+    output_path = CHALLENGE_10_OUTPUTS + "encrypt_cbc_easy.txt"
+    write_output(output_path, base64.b64encode(encrypt_cbc_easy))
+
 
     

@@ -6,7 +6,7 @@
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding
 
-# decrypt message with key from AES-128 in ECB mode
+# decrypt message with key from AES-128 in CBC mode
 def decrypt_aes_128_cbc(key, msg, iv):
     # create the AES-128 in ECB mode descryptor with the key
     cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
@@ -24,6 +24,16 @@ def decrypt_aes_128_ecb(key, msg):
 
     # decrypt message and return as string
     plaintext = decryptor.update(msg) + decryptor.finalize()
+    return plaintext
+
+# encrypt message with key from AES-128 in CBC mode
+def encrypt_aes_128_cbc(key, msg, iv):
+    # create the AES-128 in ECB mode descryptor with the key
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
+    enncryptor = cipher.encryptor()
+
+    # decrypt message and return as string
+    plaintext = enncryptor.update(msg) + enncryptor.finalize()
     return plaintext
 
 # determine if given message was encoded with ECB mode
